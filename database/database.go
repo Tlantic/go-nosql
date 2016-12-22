@@ -1,88 +1,28 @@
 package database
 
-import (
-	"time"
-)
 
+// RESERVED Metadata Keys.
+// Using such values may dictate different behaviour based on implementation
 //noinspection ALL
 const (
 
 	GUID		= "_uId"
 	TYPE		= "_type"
 
-	// Meta Keys
+	// Meta
+	LOCK = "_lock"
+	CAS = "_cas"
+	ADHOC = "_adhoc"
+	CONSISTENCY = "_consistency"
+	CONSISTENTWITH = "_consistent_with"
+	TIMEOUT = "_timeout"
+	TTL 		= "_ttl"
+	EXPIRY = TTL
+
 	CREATEDON 	= "created_on"
 	UPDATEDON 	= "updated_on"
-	TTL 		= "ttl"
-	EXPIRY = TTL
+
 )
-
-type Query interface {
-	GetStatement() string
-	SetStatement(string)
-
-	GetParams() interface{}
-	SetParams(interface{})
-
-	SetMeta(string, interface{})
-	GetMeta(string) interface{}
-}
-
-type QueryResult interface {
-	Query
-
-	One(interface{}) error
-	OneBytes() []byte
-
-	Take(int) QueryResult
-	Skip(int) QueryResult
-
-	ForEach(func(int, []byte ))
-	Map(func(int, []byte) interface{}) []interface{}
-
-	Range() <- chan []byte
-
-	Close() error
-}
-
-// A rows/records should be segmented by table/type
-type Row interface {
-
-	// row/doc key, a unique key used to direct
-	// accessing the row/doc (may be its id or other unique value)
-	GetKey()string
-	SetKey(string)
-
-	// row/doc unique id
-	GetId()string
-	SetId(string)
-
-	// table/type
-	GetType()string
-	SetType(string)
-
-	// actual columns/properties
-	GetData() interface{}
-	SetData(interface{})
-
-	// metadata about the row/doc
-	GetMeta(string) interface{}
-	SetMeta(string, interface{})
-
-	// util for accessing timestamps, usually the
-	// available within the metadata value map
-	CreatedOn() *time.Time
-	UpdatedOn() *time.Time
-
-	// after an operation (i.e bulk inserts) keep
-	// errors within the result instead of failing
-	// the whole operation
-	// if object represents a failed op
-	IsFaulted() bool
-
-	// fault
-	Fault() error
-}
 
 
 type Database interface {
