@@ -1,4 +1,4 @@
-vendor
+.idea
 go-nosql.iml
 *.o
 *.a
