@@ -21,7 +21,7 @@ const (
 	UPDATEDON = "updated_on"
 )
 
-type Database interface {
+type Interface interface {
 	GetName() string
 	NewRow(string) Row
 	NewQuery(string) Query
@@ -32,6 +32,9 @@ type Database interface {
 	Read(...interface{}) ([]Row, bool)
 	ReadOne(interface{}) Row
 	ReadOneWithType(interface{}, interface{}) Row
+
+	Touch(...interface{}) ([]Row, bool)
+	TouchOne(interface{}) Row
 
 	Replace(...interface{}) ([]Row, bool)
 	ReplaceOne(interface{}) Row
