@@ -3,12 +3,12 @@ package database
 import "errors"
 
 type opErr struct {
-	inner error
+	Inner error
 }
 
 func (e LockedError) InnerError() error {
-	if e.inner != nil {
-		return e.inner
+	if e.Inner != nil {
+		return e.Inner
 	}
 	return errors.New("")
 }
@@ -29,6 +29,12 @@ type AlreadyExistsError opErr
 
 func (e AlreadyExistsError) Error() string {
 	return "Already Exists."
+}
+
+type CASMismatchError opErr
+
+func (e CASMismatchError) Error() string {
+	return "Invalid CAS."
 }
 
 type TooBigError opErr
@@ -61,6 +67,12 @@ func (e TemporaryFailureError) Error() string {
 	return "Temporary failure."
 }
 
+type TimeoutError opErr
+
+func (e TimeoutError) Error() string {
+	return "Operation timed out."
+}
+
 type NotSupportedError opErr
 
 func (e NotSupportedError) Error() string {
@@ -78,7 +90,6 @@ type AuthenticationError opErr
 func (e AuthenticationError) Error() string {
 	return "Authentication error."
 }
-
 
 type InternalError opErr
 
